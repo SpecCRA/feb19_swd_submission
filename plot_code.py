@@ -27,6 +27,7 @@ for team in teams:
 			y=data.PTS, # y-axis is point values
 			mode='lines', # line plot
 			name=team,
+			hoverinfo='none',
 			line = dict(width=3, color='rgb(130, 130, 130') # thin, light grey lines per line
 			))
 	else:
@@ -40,7 +41,8 @@ for team in teams: # loop through again to get rockets and mavs
 			y=data.PTS,
 			mode='lines',
 			name=team,
-			line=dict(width=6, color=rockets_red) # wider than normal and red
+			hoverinfo='none',
+			line=dict(width=4, color=rockets_red) # wider than normal and red
 			))
 	elif team == 'Dallas Mavericks':
 		traces.append(go.Scatter(
@@ -48,72 +50,111 @@ for team in teams: # loop through again to get rockets and mavs
 			y=data.PTS,
 			mode='lines',
 			name=team,
-			line=dict(width=6, color=mavs_blue) # same as rockets, but blue
+			hoverinfo='none',
+			line=dict(width=4, color=mavs_blue) # same as rockets, but blue
 			))
 
 # Max points dot
 traces.append(go.Scatter(
 	x=highest_scoring_game.GAME_DATE,
 	y=highest_scoring_game.PTS,
+	name='San Antonio Spurs: 154 points',
 	mode='markers',
-	marker=dict(size=10, color='rgb(130, 130, 130)')
+	marker=dict(size=15, color='rgb(130, 130, 130)')
 	))
 
 # Min points dot
 traces.append(go.Scatter(
 	x=lowest_scoring_game.GAME_DATE,
 	y=lowest_scoring_game.PTS,
+	name='Utah Jazz: 68 points',
 	mode='markers',
-	marker=dict(size=10, color='rgb(130, 130, 130)')
+	marker=dict(size=15, color='rgb(130, 130, 130)')
 	))
 
 # Most 3-pointers made by a team game
-traces.append(go.Scatter(
-	x=most_3pt_made_game.GAME_DATE,
-	y=most_3pt_made_game.PTS,
-	mode='markers',
-	marker=dict(size=10, color=rockets_red)
-	))
+# traces.append(go.Scatter(
+# 	x=most_3pt_made_game.GAME_DATE,
+# 	y=most_3pt_made_game.PTS,
+# 	name='Houston Rockets: 26 3PM',
+# 	mode='markers',
+# 	marker=dict(size=15, color=rockets_red)
+# 	))
 
 # layout details
-"""
-1. Raise default height
-2. Remove legend
-3. Give it some margin space for labeling
-4. Only have 2 large ticks for the y-axis
-5. Remove grid lines
-6. Remove x-axis lableing
-"""
 layout=go.Layout(
 	xaxis=dict(
+		showgrid=False,
+		showticklabels=False,
+		showline=False,
+		linewidth=1
 		),
 	yaxis=dict(
+		showgrid=False,
+		showticklabels=True,
+		tickvals=[80, 120, 150],
+		showline=False,
+		linecolor='rgb(204, 204, 204)',
+		linewidth=1,
+		ticks='outside',
+		tickwidth=2,
+		ticklen=5
 		),
 	autosize=False,
+	width=1000,
+	height=650,
 	showlegend=False,
 	margin=dict(
+		autoexpand=False,
+		l=100,
+		r=20,
+		t=200,
+		b=100,
+		pad=4
 		)
 	)
 
 # Annotations
-annotations=list()
-
-# Annotate max points point - 154 points by Spurs
-
-# Annotate min points point - 68 points by Jazz
- 
-# Annotate game with most 3s made - 26 made by Rockets
-
-# Label each line with a little message
 # Rockets have highest scoring variance. - maybe label at max points
 # Mavericks are most consistent in scoring. - maybe label at max points
 
-# Title - 
+annotations=list()
 
-# Data source - plug nba_api!
+# Title - Points scored per game by teams over time
+annotations.append(dict(
+	xref='paper', yref='paper', # relative point by section of plot
+	x=-0.065, y=0.95,
+	xanchor='left', yanchor='middle',
+	text='Points',
+	font=dict(family='Arial', size=16, color='rgb(0,0,0)'),
+	showarrow=False
+	))
 
-# 
+# Data source - stats.nba.com, +plug nba_api!
+annotations.append(dict( # annotation for stats.nba.com
+	xref='paper', yref='paper',
+	x=0.7, y=-0.2,
+	xanchor='left', yanchor='center',
+	text='Source: stats.nba.com',
+	font=dict(family='Arial', size=12, color='rgb(204, 204, 204)'),
+	showarrow=False
+	))
+
+annotations.append(dict(
+	xref='paper', yref='paper',
+	x=0.7, y=-0.24,
+	xanchor='left', yanchor='center',
+	text='API: https://github.com/swar/nba_api',
+	font=dict(family='Arial', size=12, color='rgb(204,204,204)'),
+	showarrow=False
+	))
+
+# Append annotations to layout
+layout['annotations'] = annotations
 
 # Finally, show plot
-fig = go.Figure(data=traces)
+fig = go.Figure(data=traces, layout=layout)
 py.iplot(fig, filename='pts_scored_over_time')
+
+# The rest will be done on a picture editor.
+# Color Houston Rockets and Dallas Mavericks text on the titles.
