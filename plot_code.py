@@ -92,7 +92,7 @@ layout=go.Layout(
 	yaxis=dict(
 		showgrid=False,
 		showticklabels=True,
-		tickvals=[80, 120, 150],
+		tickvals=[80, 110, 140],
 		showline=False,
 		linecolor='rgb(204, 204, 204)',
 		linewidth=1,
@@ -133,7 +133,7 @@ annotations.append(dict(
 # Data source - stats.nba.com, +plug nba_api!
 annotations.append(dict( # annotation for stats.nba.com
 	xref='paper', yref='paper',
-	x=0.7, y=-0.2,
+	x=0.7, y=-0.18,
 	xanchor='left', yanchor='center',
 	text='Source: stats.nba.com',
 	font=dict(family='Arial', size=12, color='rgb(204, 204, 204)'),
@@ -142,9 +142,19 @@ annotations.append(dict( # annotation for stats.nba.com
 
 annotations.append(dict(
 	xref='paper', yref='paper',
-	x=0.7, y=-0.24,
+	x=0.7, y=-0.22,
 	xanchor='left', yanchor='center',
 	text='API: https://github.com/swar/nba_api',
+	font=dict(family='Arial', size=12, color='rgb(204,204,204)'),
+	showarrow=False
+	))
+
+# Edited with photopea
+annotations.append(dict(
+	xref='paper', yref='paper',
+	x=0.7, y=-0.26,
+	xanchor='left', yanchor='center',
+	text='Edited with: https://www.photopea.com/',
 	font=dict(family='Arial', size=12, color='rgb(204,204,204)'),
 	showarrow=False
 	))
